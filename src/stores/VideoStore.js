@@ -17,7 +17,7 @@ export default class VideoDetailStores {
   hiddenVideoDetails = observable([]);
   convertArray = [];
 
-  disposer = autorun(() => console.log(this.storeDetails));
+  disposer1 = autorun(() => console.log(this.storeDetails));
 
   disposer2 = reaction(
     () => JSON.stringify(this.hiddenVideoDetails),
@@ -25,6 +25,14 @@ export default class VideoDetailStores {
       localStorage.setItem('hideVideoStore', json);
     },
   );
+  disposer3 = autorun(() => {
+    const existingStore = localStorage.getItem('hideVideoStore');
+    if (existingStore) {
+      Object.assign(this.hiddenVideoDetails, JSON.parse(existingStore));
+    }
+  });
+
+  // from then on serialize and save to localStorage
 
   get storeDetails() {
     return `We have ${this.hiddenVideoDetails}`;
@@ -32,7 +40,6 @@ export default class VideoDetailStores {
 
   constructor(RootStore) {
     this.rootStore = RootStore;
-
     makeAutoObservable(this, {
       videoDetails: observable,
       hiddenVideoDetails: observable,
@@ -74,9 +81,11 @@ export default class VideoDetailStores {
   }
   async initForms() {
     console.log('start');
+    /*
     const hiddenvideoIdsForChosenShow = this.hiddenVideoDetails.filter(obj => {
       return this.rootStore.selectStore.chosenOption.includes(obj.channel_id);
     });
+    */
     let idss = [];
     const ids = [
       'UCVTyTA7-g9nopHeHbeuvpRA',
