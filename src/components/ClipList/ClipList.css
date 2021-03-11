@@ -1,0 +1,9 @@
+.ul-list {
+  text-align: left;
+  width: 50%;
+}
+
+.videoShow {
+  position: absolute;
+  margin-left: 10rem;
+}
