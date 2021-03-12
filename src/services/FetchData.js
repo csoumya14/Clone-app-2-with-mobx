@@ -7,13 +7,14 @@ export const getDataFromApi = (channelId, maxResults) => {
       .get('/search', {
         params: {
           channelId: channelId,
+          order: 'date',
           maxResults: maxResults,
         },
       })
-      .then((response) => {
+      .then(response => {
         if (response !== null) resolve(response.data.items);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log('Error', error);
         reject(error);
       });

@@ -1,0 +1,18 @@
+.form-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.input-button {
+  width: 30%;
+  align-self: center;
+}
+.para {
+  font-size: 12px;
+}
+.select-element {
+  margin-top: 1rem;
+  width: 50%;
+  align-self: center;
+  text-align: center;
+}
