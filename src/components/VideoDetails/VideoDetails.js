@@ -4,16 +4,20 @@ import './VideoDetails.css';
 const VideoDetails = ({ clip, handleDeleteClip }) => {
   return (
     <li className="list-items">
-      <div>
-        <a href={`https://www.youtube.com/embed/${clip.id.videoId}`} target="iframe_a">
-          {clip.snippet.description}
-        </a>
-      </div>
-      <div>
-        <a href={`https://www.youtube.com/embed/${clip.id.videoId}`} target="iframe_a">
-          {new Date(clip.snippet.publishTime).toISOString().split('T')[0]}
-        </a>
-      </div>
+      <a
+        href={`https://www.youtube.com/embed/${clip.id.videoId}`}
+        target="iframe_a"
+        onClick={() => handleDeleteClip(clip)}
+      >
+        {clip.snippet.description}
+      </a>
+      <a
+        href={`https://www.youtube.com/embed/${clip.id.videoId}`}
+        target="iframe_a"
+        onClick={() => handleDeleteClip(clip)}
+      >
+        {new Date(clip.snippet.publishTime).toISOString().split('T')[0]}
+      </a>
       <button className="button" onClick={() => handleDeleteClip(clip)}>
         Hide
       </button>

@@ -12,22 +12,27 @@ export default class VideoDetailStores {
       videoDetails: observable,
       convertArray: observable,
       createConvertedArray: action,
-      initForms: action,
+      getVideoDetailsAsync: action,
       hideClip: action,
     });
   }
 
-  createConvertedArray() {
+  createConvertedArray(hiddenVideoIdsArrays) {
     for (let i = 0; i < this.videoDetails.length; i++) {
       for (let j = 0; j < this.videoDetails[i].length; j++) {
         this.convertArray.push(this.videoDetails[i][j]);
       }
     }
+    const convertArrayWihoutHiddenIds = this.convertArray.filter(
+      item => !hiddenVideoIdsArrays.includes(item.id.videoId),
+    );
+    this.convertArray = convertArrayWihoutHiddenIds;
+    return this.convertArray;
   }
 
-  async getVideoDetailsAsync(idsObject, maxResult) {
+  async getVideoDetailsAsync(channelIds, maxResult, hiddenVideoIdsArrays) {
     console.log('start');
-    const promises = idsObject.map(async id => {
+    const promises = channelIds.map(async id => {
       const videoDetailPromise = await getDataFromApi(
         id.channel_id,
         maxResult + id.hiddenVideoId.length,
@@ -38,7 +43,7 @@ export default class VideoDetailStores {
     console.log('end');
     runInAction(() => {
       this.videoDetails = videoDetailsToGet;
-      this.createConvertedArray();
+      this.createConvertedArray(hiddenVideoIdsArrays);
     });
   }
 

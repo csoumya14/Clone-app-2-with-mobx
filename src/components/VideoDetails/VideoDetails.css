@@ -1,6 +1,9 @@
 .list-items {
   padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .button {
   margin-top: 0.5rem;
+  width: 10rem;
 }

@@ -24,7 +24,7 @@ const App = observer(() => {
   ]);
 
   const [chosenOption, setChosenOption] = useState([]);
-  let idsObject = [];
+  let channelIds = [];
 
   const findMaxResult = () => {
     let maxResult = 0;
@@ -41,11 +41,17 @@ const App = observer(() => {
   const hiddenvideoIdsForChosenShow = hiddenVideoDetails.filter(obj => {
     return chosenOption.includes(obj.channel_id);
   });
+
+  const arrayOfHiddenVideoIds = [
+    ...new Set([].concat(...hiddenVideoDetails.map(o => o.hiddenVideoId))),
+  ];
+
+  //console.log(hiddenVideoIdsArrays);
   // if no shows are chosen all channel ids are given as input if shows are selected only channel ids corresponding to each
   //chosen show is given as input
   chosenOption.length === 0
-    ? (idsObject = hiddenVideoDetails)
-    : (idsObject = hiddenvideoIdsForChosenShow);
+    ? (channelIds = hiddenVideoDetails)
+    : (channelIds = hiddenvideoIdsForChosenShow);
 
   const addHideClipToHiddenVideoDetails = item => {
     const toBeHidden = hiddenVideoDetails.find(v => v.channel_id === item.snippet.channelId);
@@ -73,7 +79,7 @@ const App = observer(() => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    videoStore.getVideoDetailsAsync(idsObject, maxResult);
+    videoStore.getVideoDetailsAsync(channelIds, maxResult, arrayOfHiddenVideoIds);
     //setChosenOption('');
   };
 
@@ -94,11 +100,7 @@ const App = observer(() => {
         handleChange={handleChange}
         chosenOption={chosenOption}
       />
-      <ClipList
-        store={videoStore}
-        handleDeleteClip={handleDeleteClip}
-        hiddenVideoDetails={hiddenVideoDetails}
-      />
+      <ClipList store={videoStore} handleDeleteClip={handleDeleteClip} />
     </div>
   );
 });
