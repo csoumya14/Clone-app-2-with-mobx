@@ -37,13 +37,15 @@ const App = observer(() => {
     }
     return maxResult;
   };
+
   const maxResult = findMaxResult();
-  const hiddenvideoIdsForChosenShow = hiddenVideoDetails.filter(obj =>
-    chosenOption.includes(obj.channel_id),
+
+  const channelIdsForChosenShow = hiddenVideoDetails.filter(videoDetail =>
+    chosenOption.includes(videoDetail.channel_id),
   );
 
   const arrayOfHiddenVideoIds = [
-    ...new Set([].concat(...hiddenVideoDetails.map(o => o.hiddenVideoId))),
+    ...new Set([].concat(...hiddenVideoDetails.map(videoDetail => videoDetail.hiddenVideoId))),
   ];
 
   //console.log(hiddenVideoIdsArrays);
@@ -51,7 +53,7 @@ const App = observer(() => {
   //chosen show is given as input
   chosenOption.length === 0
     ? (channelIds = hiddenVideoDetails)
-    : (channelIds = hiddenvideoIdsForChosenShow);
+    : (channelIds = channelIdsForChosenShow);
 
   const addHideClipToHiddenVideoDetails = item => {
     const toBeHidden = hiddenVideoDetails.find(v => v.channel_id === item.snippet.channelId);
@@ -83,9 +85,9 @@ const App = observer(() => {
     //setChosenOption('');
   };
 
-  const handleDeleteClip = item => {
-    videoStore.hideClip(item);
-    addHideClipToHiddenVideoDetails(item);
+  const handleDeleteClip = videoItem => {
+    videoStore.hideClip(videoItem);
+    addHideClipToHiddenVideoDetails(videoItem);
   };
 
   const handleChange = value => {
