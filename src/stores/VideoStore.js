@@ -7,7 +7,6 @@ export default class VideoDetailStores {
   convertArray = [];
 
   constructor() {
-    //this.rootStore = RootStore;
     makeAutoObservable(this, {
       videoDetails: observable,
       convertArray: observable,
@@ -29,7 +28,7 @@ export default class VideoDetailStores {
     );
 
     this.convertArray = convertArrayWihoutHiddenIds
-      .sort(function compare(a, b) {
+      .sort((a, b) => {
         var dateA = new Date(a.snippet.publishedAt);
         var dateB = new Date(b.snippet.publishedAt);
         return dateB - dateA;

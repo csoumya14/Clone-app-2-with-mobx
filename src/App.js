@@ -38,9 +38,9 @@ const App = observer(() => {
     return maxResult;
   };
   const maxResult = findMaxResult();
-  const hiddenvideoIdsForChosenShow = hiddenVideoDetails.filter(obj => {
-    return chosenOption.includes(obj.channel_id);
-  });
+  const hiddenvideoIdsForChosenShow = hiddenVideoDetails.filter(obj =>
+    chosenOption.includes(obj.channel_id),
+  );
 
   const arrayOfHiddenVideoIds = [
     ...new Set([].concat(...hiddenVideoDetails.map(o => o.hiddenVideoId))),
