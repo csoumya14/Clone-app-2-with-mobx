@@ -3,8 +3,8 @@ import { observable, action, runInAction } from 'mobx';
 import { makeAutoObservable } from 'mobx';
 
 export default class VideoDetailStores {
-  videoDetails = observable([]);
-  convertArray = observable([]);
+  videoDetails = [];
+  convertArray = [];
 
   constructor() {
     //this.rootStore = RootStore;
@@ -17,6 +17,7 @@ export default class VideoDetailStores {
     });
   }
 
+  // data fetched is converted into an array of objects and hiddenids are filtered out from the array.
   createConvertedArray(hiddenVideoIdsArrays) {
     for (let i = 0; i < this.videoDetails.length; i++) {
       for (let j = 0; j < this.videoDetails[i].length; j++) {
@@ -24,9 +25,16 @@ export default class VideoDetailStores {
       }
     }
     const convertArrayWihoutHiddenIds = this.convertArray.filter(
-      item => !hiddenVideoIdsArrays.includes(item.id.videoId),
+      item => !hiddenVideoIdsArrays.includes(item.id.videoId || item.id.playlistId),
     );
-    this.convertArray = convertArrayWihoutHiddenIds;
+
+    this.convertArray = convertArrayWihoutHiddenIds
+      .sort(function compare(a, b) {
+        var dateA = new Date(a.snippet.publishedAt);
+        var dateB = new Date(b.snippet.publishedAt);
+        return dateB - dateA;
+      })
+      .slice(0, 10);
     return this.convertArray;
   }
 
