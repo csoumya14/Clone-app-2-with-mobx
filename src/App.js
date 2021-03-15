@@ -3,7 +3,6 @@ import SelectList from './components/SelectList/SelectList';
 import ClipList from './components/ClipList/ClipList';
 import { observer } from 'mobx-react';
 import { useStores } from './stores';
-
 import './App.css';
 
 const App = observer(() => {
@@ -55,8 +54,10 @@ const App = observer(() => {
     ? (channelIds = hiddenVideoDetails)
     : (channelIds = channelIdsForChosenShow);
 
-  const addHideClipToHiddenVideoDetails = item => {
-    const toBeHidden = hiddenVideoDetails.find(v => v.channel_id === item.snippet.channelId);
+  const addHiddenClipIdToHiddenVideoDetails = item => {
+    const toBeHidden = hiddenVideoDetails.find(
+      videoItem => videoItem.channel_id === item.snippet.channelId,
+    );
     const hiddenVideo = {
       ...toBeHidden,
       hiddenVideoId: [...toBeHidden.hiddenVideoId, item.id.videoId || item.id.playlistId],
@@ -82,12 +83,12 @@ const App = observer(() => {
   const handleSubmit = event => {
     event.preventDefault();
     videoStore.getVideoDetailsAsync(channelIds, maxResult, arrayOfHiddenVideoIds);
-    //setChosenOption('');
+    //setChosenOption('');  //uncomment this line to clear the array of selected items
   };
 
   const handleDeleteClip = videoItem => {
     videoStore.hideClip(videoItem);
-    addHideClipToHiddenVideoDetails(videoItem);
+    addHiddenClipIdToHiddenVideoDetails(videoItem);
   };
 
   const handleChange = value => {

@@ -6,7 +6,7 @@ import { createContext } from 'react';
 class RootStore {
   constructor() {
     this.selectStore = new SelectStore();
-    this.videoStore = new VideoStore(this);
+    this.videoStore = new VideoStore();
   }
 }
 

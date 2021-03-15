@@ -16,15 +16,15 @@ export default class VideoDetailStores {
     });
   }
 
-  // data fetched is converted into an array of objects and hiddenids are filtered out from the array.
-  createConvertedArray(hiddenVideoIdsArrays) {
+  // data fetched is converted from an array of three separate array of objects into a single array of objects and hiddenids are filtered out from the array.
+  createConvertedArray(hiddenVideoIdsArray) {
     for (let i = 0; i < this.videoDetails.length; i++) {
       for (let j = 0; j < this.videoDetails[i].length; j++) {
         this.convertArray.push(this.videoDetails[i][j]);
       }
     }
     const convertArrayWihoutHiddenIds = this.convertArray.filter(
-      item => !hiddenVideoIdsArrays.includes(item.id.videoId || item.id.playlistId),
+      item => !hiddenVideoIdsArray.includes(item.id.videoId || item.id.playlistId),
     );
 
     this.convertArray = convertArrayWihoutHiddenIds
@@ -37,7 +37,7 @@ export default class VideoDetailStores {
     return this.convertArray;
   }
 
-  async getVideoDetailsAsync(channelIds, maxResult, hiddenVideoIdsArrays) {
+  async getVideoDetailsAsync(channelIds, maxResult, hiddenVideoIdsArray) {
     console.log('start');
     const promises = channelIds.map(async id => {
       const videoDetailPromise = await getDataFromApi(
@@ -50,7 +50,7 @@ export default class VideoDetailStores {
     console.log('end');
     runInAction(() => {
       this.videoDetails = videoDetailsToGet;
-      this.createConvertedArray(hiddenVideoIdsArrays);
+      this.createConvertedArray(hiddenVideoIdsArray);
     });
   }
 
